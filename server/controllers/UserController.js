@@ -51,13 +51,13 @@ const loginUser = async (req, res) => {
     }
 
     // Autentikasi berhasil, buat token JWT
-    const token = jwt.sign({ 
-      nip: user.nip, 
-      role: user.role 
-    }, secretKey, { expiresIn: '12h' });
+    const token = jwt.sign(user, secretKey, { expiresIn: '1h' });
 
     // Kirim token sebagai cookie
-    res.cookie('jwtToken', token, { maxAge: 12 * 60 * 60 * 1000, httpOnly: true });
+    res.cookie('token', token, { 
+      maxAge: 12 * 60 * 60 * 1000, 
+      httpOnly: true 
+    });
 
     // Kirim token sebagai respons
     res.json({ token });
