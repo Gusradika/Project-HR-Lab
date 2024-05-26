@@ -10,13 +10,14 @@ const AttendanceSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    check_in: Date,
-    check_out: Date,
+    date: date,
+    check_in: time,
+    check_out: time,
     status_attendance: { 
         type: String, 
         enum: ["present", "late", "absent", "sick", "leave", "permission", "early", "late_and_early"],
     }
-}, { 
+}, {
     collection: 'tbl_attendances' 
 });
 

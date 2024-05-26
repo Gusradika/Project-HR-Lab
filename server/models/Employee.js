@@ -21,7 +21,8 @@ const EmployeeSchema = new mongoose.Schema({
     division: { 
         type: String, 
         enum: ["IT", "Sales", "Marketing", "Accounting"]
-    }
+    },
+    profile_photo: String
 }, { 
     collection: 'tbl_employees' 
 });

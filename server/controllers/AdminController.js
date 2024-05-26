@@ -11,7 +11,7 @@ const verifyUser = async (req, res) => {
                 message: 'User not found' 
             });
         }
-        
+
         if (user.verified) {
             return res.status(400).json({ 
                 message: 'User already verified' 

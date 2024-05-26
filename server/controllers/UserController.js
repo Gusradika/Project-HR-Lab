@@ -55,12 +55,14 @@ const loginUser = async (req, res) => {
 
     // Kirim token sebagai cookie
     res.cookie('token', token, { 
-      maxAge: 12 * 60 * 60 * 1000, 
-      httpOnly: true 
+      httpOnly: true,
+      // maxAge: 12 * 60 * 60 * 1000 
     });
 
     // Kirim token sebagai respons
     res.json({ token });
+
+    return res.redirect("/dashboard");
 
   } catch (error) {
     res.status(500).json({ 
@@ -73,7 +75,7 @@ const loginUser = async (req, res) => {
 const logoutUser = async (req, res) => {
   try {
     // Hapus cookie yang berisi token JWT
-    res.clearCookie('jwtToken');
+    res.clearCookie('token');
 
     res.json({ 
       message: 'Logout successful' 

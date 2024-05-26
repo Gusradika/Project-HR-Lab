@@ -12,8 +12,10 @@ const SalarySchema = new mongoose.Schema({
     },
     month: String,
     basic_salary: Number,
-    overtime_pay: Number,
-    allowances: Number,
+    overtime_salary: Number,
+    deduction_sick: Number,
+    deduction_permission: Number,
+    deduction_absent: Number,
     total_salary: Number
 }, { 
     collection: 'tbl_salaries' 
