@@ -1,6 +1,6 @@
 const UserModel = require('../models/User');
 const jwt = require('jsonwebtoken');
-const secretKey = '639AqKEkrQjms2grEgcFTRP60m67jGSjrCeOZteT8R';
+const secretKey = require('../middleware/authenticate').secretKey;
 const bcrypt = require('bcrypt');
 
 // Method untuk membuat user baru
@@ -60,13 +60,14 @@ const loginUser = async (req, res) => {
       // Buat token JWT
       const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
 
-      // Kirim token sebagai cookie
-      res.cookie('token', token, { 
-        httpOnly: true
-      });
-
       // Kirim token sebagai respons
-      return res.json({ token });
+      return res.json({
+        data: {
+          nip: user.nip,
+          role: user.role
+        },
+        token 
+      });
     } else {
       // Password salah
       return res.status(401).json({ 

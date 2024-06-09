@@ -5,6 +5,7 @@ const router = express.Router();
 const userController = require('../controllers/UserController');
 const employeeController = require('../controllers/EmployeeController');
 const adminController = require('../controllers/AdminController');
+const authenticate = require('../middleware/authenticate');
 
 //* Route *//
 // login
@@ -14,7 +15,7 @@ router.post('/login', userController.loginUser);
 router.post('/logout', userController.logoutUser);
 
 // test data 
-router.get('/', employeeController.getEmployees); 
+router.get('/employee', authenticate.authenticateToken, employeeController.getEmployees); 
 
 // registrasi user
 router.post('/register', userController.createUser);
