@@ -41,28 +41,38 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // Periksa password
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!user.password) {
+      return res.status(404).json({ 
+        message: 'Password belum dimasukkan' 
+      });
+    }
 
-    if (!passwordMatch) {
+    // Periksa password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (isPasswordValid) {
+      const payload = {
+        id: user._id,
+        nip: user.nip,
+        role: user.role
+      };
+
+      // Buat token JWT
+      const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+
+      // Kirim token sebagai cookie
+      res.cookie('token', token, { 
+        httpOnly: true
+      });
+
+      // Kirim token sebagai respons
+      return res.json({ token });
+    } else {
+      // Password salah
       return res.status(401).json({ 
         message: 'Password salah' 
       });
     }
-
-    // Autentikasi berhasil, buat token JWT
-    const token = jwt.sign(user, secretKey, { expiresIn: '1h' });
-
-    // Kirim token sebagai cookie
-    res.cookie('token', token, { 
-      httpOnly: true,
-      // maxAge: 12 * 60 * 60 * 1000 
-    });
-
-    // Kirim token sebagai respons
-    res.json({ token });
-
-    return res.redirect("/dashboard");
 
   } catch (error) {
     res.status(500).json({ 
