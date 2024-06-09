@@ -61,13 +61,7 @@ const loginUser = async (req, res) => {
       const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
 
       // Kirim token sebagai respons
-      return res.json({
-        data: {
-          nip: user.nip,
-          role: user.role
-        },
-        token 
-      });
+      return res.json({token});
     } else {
       // Password salah
       return res.status(401).json({ 

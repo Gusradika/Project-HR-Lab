@@ -8,7 +8,9 @@ const authenticateToken = async (req, res, next) => {
   
   // Jika token tidak tersedia
   if (!authHeader) {
-    return res.status(401).json({ message: 'Token diperlukan' });
+    return res.status(401).json({ 
+        message: 'Token diperlukan' 
+    });
   }
 
   try {
@@ -18,14 +20,18 @@ const authenticateToken = async (req, res, next) => {
     // Verifikasi token JWT
     jwt.verify(token, secretKey, (err, decoded) => {
       if (err) {
-        return res.status(403).json({ message: 'Token tidak valid' });
+        return res.status(403).json({ 
+            message: 'Token tidak valid' 
+        });
       }
       // Jika token valid, tambahkan data pengguna ke objek req untuk digunakan di middleware berikutnya
       req.user = decoded;
       next();
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+        message: error.message 
+    });
   }
 };
 
